@@ -19,7 +19,7 @@ st.set_page_config(
 #    "institution": "山东药品食品职业学院"
 #}
 
-# 加载保存的Logistic Regression模型
+# 加载模型
 @st.cache_resource
 def load_model():
     try:
@@ -277,7 +277,7 @@ with st.expander("📋 当前输入值预览"):
             display_value = prop["option_labels"].get(int(value), value)
         else:
             # 根据特征类型调整显示格式
-            if feature in ["FCTI", "Age", "Com", "PCAT"]:
+            if feature in ["FCTI", "Age", "Com", "PCAT", "Braden"]:
                 display_value = int(value)  # 整数特征显示整数
             elif feature == "Ser":
                 display_value = round(value, 1)  # Ser显示一位小数
@@ -348,7 +348,7 @@ if model is not None and st.button("开始预测", type="primary"):
             # 使用预创建的背景数据集
             background_df = create_background_data()
             
-            # 对于Logistic Regression，使用LinearExplainer
+            # 使用LinearExplainer
             explainer = shap.LinearExplainer(model, background_df)
             
             # 计算SHAP值
